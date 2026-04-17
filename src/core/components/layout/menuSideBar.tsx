@@ -12,7 +12,7 @@ export default class MenuSideBar extends React.Component {
                     mode="inline"
                     defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
-                    style={{ height: '100%', borderInlineEnd: 0 }}
+                    style={{width: '230px', height: '100%', borderInlineEnd: 0 }}
                     items={itemSideBarMenu}
                 />
             </Sider>

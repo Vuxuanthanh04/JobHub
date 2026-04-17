@@ -3,7 +3,9 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfi
 
 export class FireBaseAuthDatasource {
     async login(email: string, password: string) {
-        return signInWithEmailAndPassword(auth, email, password);
+        const userCredential = signInWithEmailAndPassword(auth, email, password);
+        const token = (await userCredential).user.getIdToken();
+        return token
     }
 
     async register(email: string, password: string, displayName: string) {

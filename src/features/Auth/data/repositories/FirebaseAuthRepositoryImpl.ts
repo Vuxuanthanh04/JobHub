@@ -6,10 +6,14 @@ import { auth } from "../../../../core/config/conectFireBase";
 export class FirebaseAuthRepositoryImpl implements AuthRepository {
     async login(email: string, password: string): Promise<UserEntity> {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        let token = await userCredential.user.getIdToken();
+        localStorage.setItem("uId",userCredential.user.uid);
+        localStorage.setItem("token",token);
         return {
             uid: userCredential.user.uid,
             email: userCredential.user.email,
             displayName: userCredential.user.displayName || undefined,
+            token: token,
         };
     }
 
@@ -20,6 +24,7 @@ export class FirebaseAuthRepositoryImpl implements AuthRepository {
             uid: userCredential.user.uid,
             email: userCredential.user.email,
             displayName: userCredential.user.displayName || undefined,
+            token: await userCredential.user.getIdToken(),
         };
     }
 

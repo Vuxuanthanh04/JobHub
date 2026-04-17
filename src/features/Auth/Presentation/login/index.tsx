@@ -1,6 +1,5 @@
-import { Form, Input, Button, Card } from "antd";
+import { Form, Input, Button, Card, message } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
 import { FirebaseAuthRepositoryImpl } from "../../data/repositories/FirebaseAuthRepositoryImpl";
 import type { AuthRepository } from "../../domain/respositories/authRepository";
 
@@ -10,10 +9,14 @@ export default class LoginPage extends React.Component {
 
     onSubmit = async (values: { email: string, password: string }) => {
         try {
-            await this.authRepository.login(values.email, values.password);
-            console.log("Login successful");
+            let auth = await this.authRepository.login(values.email, values.password);
+            if(auth==null){
+                return
+            }
+            window.location.href = "/";
         } catch (error) {
             console.error("Login failed", error);
+            message.error("Vui lòng kiểm tra lại thông tin đăng nhập")
         }
     }
     render() {
@@ -47,15 +50,11 @@ export default class LoginPage extends React.Component {
                         </Form.Item>
                         <Form.Item>
                             <div style={{ display: "flex", gap: "10px" }}>
-                                <Link to="/" style={{ width: "50%", display: "block" }}>
-                                    <Button type="primary" block>
-                                        Đăng Nhập
-                                    </Button>
-                                </Link>
+                                <Button htmlType="submit" type="primary" block>
+                                    Đăng Nhập
+                                </Button>
                                 <Button type="primary" danger style={{ flex: 1 }}>
-                                    <Link to="/register" style={{ color: "inherit", width: "100%", display: "block" }}>
-                                        Đăng Kí
-                                    </Link>
+                                    Đăng Kí
                                 </Button>
                             </div>
                         </Form.Item>

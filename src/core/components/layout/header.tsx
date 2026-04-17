@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Col, Layout, Menu, Row } from "antd";
+import { Avatar, Button, Col, Layout, Menu, Row } from "antd";
 import { itemsHeaderMenu } from "../../router/itemHeaderMenu";
 import { Link } from "react-router-dom";
+import { UserOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 export default class MainHeader extends React.Component {
-
+    token: string | null = localStorage.getItem("token")
     render() {
         return (
             <Header>
@@ -21,9 +22,13 @@ export default class MainHeader extends React.Component {
                         />
                     </Col>
                     <Col span={6} style={{ textAlign: 'right' }}>
-                        <Link to="/login">
-                            <Button type="primary">Đăng nhập</Button>
-                        </Link>
+                        {!this.token ?
+                            <Link to="/login">
+                                <Button type="primary">Đăng nhập</Button>
+                            </Link>
+                            :
+                            <Avatar size={64} icon={<UserOutlined />} />
+                        }
                     </Col>
                 </Row>
             </Header>
